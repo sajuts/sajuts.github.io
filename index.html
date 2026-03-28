@@ -1,195 +1,2243 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sajumon Thadathil Sumon | Logistics & Operations Portfolio</title>
-  <meta name="description" content="Logistics & Operations portfolio: inventory system, trade compliance framework, feasibility study, dissertation highlights." />
-  <link rel="stylesheet" href="assets/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sajumon Thadathil Sumon | Logistics & Supply Chain</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Serif+Display:ital@0;1&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #04080f;
+      --surface: #070d19;
+      --surface2: #0b1422;
+      --surface3: #0f1a2e;
+      --accent: #00e5ff;
+      --accent2: #0047e1;
+      --accent3: #ff6b2b;
+      --gold: #f5c842;
+      --text: #dce8f5;
+      --muted: #5a6e8a;
+      --border: rgba(0, 229, 255, 0.1);
+      --border2: rgba(255, 255, 255, 0.05);
+      --glow: 0 0 50px rgba(0, 229, 255, 0.12);
+      --glow-strong: 0 0 80px rgba(0, 229, 255, 0.22);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ========= CURSOR ========= */
+    #cursor {
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+      box-shadow: 0 0 12px var(--accent);
+      transition: width .2s, height .2s;
+    }
+
+    #cursor-ring {
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(0, 229, 255, 0.45);
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width .3s, height .3s;
+    }
+
+    #cursor.hover {
+      width: 16px;
+      height: 16px;
+    }
+
+    #cursor-ring.hover {
+      width: 48px;
+      height: 48px;
+    }
+
+    /* ========= NOISE ========= */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9990;
+      opacity: 0.3;
+    }
+
+    /* ========= PROGRESS ========= */
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 500;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent), var(--accent3));
+      width: 0%;
+      box-shadow: 0 0 10px var(--accent);
+      transition: width .05s linear;
+    }
+
+    /* ========= NAV ========= */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 200;
+      padding: 1.4rem 5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(4, 8, 15, 0.5);
+      backdrop-filter: blur(28px);
+      border-bottom: 1px solid rgba(0, 229, 255, 0.06);
+      transition: padding .4s, background .4s;
+    }
+
+    nav.scrolled {
+      padding: .8rem 5rem;
+      background: rgba(4, 8, 15, 0.9);
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      color: var(--accent);
+      letter-spacing: .15em;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .7rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+      transition: color .3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent);
+      transition: width .3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      font-family: 'Space Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #000;
+      background: var(--accent);
+      border: none;
+      padding: .5rem 1.2rem;
+      cursor: none;
+      transition: box-shadow .3s, transform .2s;
+    }
+
+    .nav-cta:hover {
+      box-shadow: 0 0 24px rgba(0, 229, 255, 0.5);
+      transform: translateY(-1px);
+    }
+
+    /* ========= CANVAS ========= */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* ========= HERO ========= */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 9rem 5rem 5rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse 80% 80% at 25% 50%, black 0%, transparent 100%);
+    }
+
+    .hero-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+    }
+
+    .orb1 {
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(0, 71, 225, 0.18) 0%, transparent 70%);
+      top: -200px;
+      right: -100px;
+      animation: orbf 16s ease-in-out infinite;
+    }
+
+    .orb2 {
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(0, 229, 255, 0.1) 0%, transparent 70%);
+      bottom: -100px;
+      left: 0;
+      animation: orbf 20s ease-in-out infinite reverse;
+    }
+
+    .orb3 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 107, 43, 0.07) 0%, transparent 70%);
+      top: 40%;
+      left: 45%;
+      animation: orbf 25s ease-in-out infinite;
+    }
+
+    @keyframes orbf {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1)
+      }
+
+      50% {
+        transform: translateY(-35px) scale(1.05)
+      }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: rgba(0, 229, 255, 0.05);
+      border: 1px solid rgba(0, 229, 255, 0.2);
+      padding: .38rem .95rem;
+      border-radius: 3px;
+      margin-bottom: 2rem;
+      font-size: .68rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp .7s .2s forwards;
+    }
+
+    .hero-badge .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .2
+      }
+    }
+
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.8rem, 10vw, 9.5rem);
+      line-height: .9;
+      letter-spacing: .02em;
+      opacity: 0;
+      transform: translateY(28px);
+      animation: fadeUp .9s .4s forwards;
+    }
+
+    .hero-name .l1 {
+      display: block;
+      color: var(--text);
+    }
+
+    .hero-name .l2 {
+      display: block;
+      background: linear-gradient(105deg, var(--accent) 0%, var(--accent2) 55%, var(--accent3) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-tagline {
+      margin-top: 1.8rem;
+      font-size: clamp(.9rem, 1.6vw, 1.05rem);
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.7;
+      letter-spacing: .03em;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp .8s .6s forwards;
+    }
+
+    .hero-tagline strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .hero-tagline .mono {
+      font-family: 'Space Mono', monospace;
+      font-size: .78rem;
+      color: var(--accent);
+    }
+
+    .hero-cta {
+      margin-top: 2.8rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp .8s .8s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      color: #000;
+      padding: .85rem 2rem;
+      border-radius: 2px;
+      font-weight: 700;
+      font-size: .78rem;
+      text-decoration: none;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+      box-shadow: 0 0 28px rgba(0, 229, 255, 0.28);
+      transition: transform .3s, box-shadow .3s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 48px rgba(0, 229, 255, 0.45);
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: .85rem 2rem;
+      border-radius: 2px;
+      font-weight: 400;
+      font-size: .78rem;
+      text-decoration: none;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+      transition: border-color .3s, color .3s, background .3s;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(0, 229, 255, 0.04);
+    }
+
+    .hero-stats {
+      position: absolute;
+      bottom: 3.5rem;
+      right: 5rem;
+      display: flex;
+      gap: 4rem;
+      opacity: 0;
+      animation: fadeUp .7s 1s forwards;
+    }
+
+    .stat {
+      text-align: right;
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: .04em;
+    }
+
+    .stat-label {
+      font-size: .63rem;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-top: .25rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 3.5rem;
+      left: 5rem;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      color: var(--muted);
+      font-size: .65rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+      opacity: 0;
+      animation: fadeUp .7s 1.2s forwards;
+    }
+
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent));
+      overflow: hidden;
+    }
+
+    .scroll-line::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      transform: translateX(-100%);
+      animation: slideR 2s 1.4s ease-in-out infinite;
+    }
+
+    @keyframes slideR {
+      0% {
+        transform: translateX(-100%)
+      }
+
+      100% {
+        transform: translateX(100%)
+      }
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ========= SECTION SHARED ========= */
+    section {
+      padding: 7rem 5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .sec-label {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      margin-bottom: .8rem;
+      font-size: .65rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+    }
+
+    .sec-label::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .sec-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5.5vw, 4.8rem);
+      letter-spacing: .04em;
+      line-height: .93;
+      margin-bottom: .8rem;
+    }
+
+    .sec-sub {
+      color: var(--muted);
+      font-size: .95rem;
+      max-width: 530px;
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    /* ========= PROFILE ========= */
+    #profile {
+      background: var(--bg);
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 6rem;
+      align-items: center;
+      margin-top: 4rem;
+    }
+
+    .profile-visual {
+      position: relative;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pv-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+    }
+
+    .pv-ring:nth-child(1) {
+      width: 75%;
+      height: 75%;
+      animation: ringR 28s linear infinite;
+    }
+
+    .pv-ring:nth-child(2) {
+      width: 100%;
+      height: 100%;
+      animation: ringR 38s linear infinite reverse;
+    }
+
+    .pv-ring:nth-child(3) {
+      width: 54%;
+      height: 54%;
+      animation: ringR 20s linear infinite;
+    }
+
+    .pv-ring::after {
+      content: '';
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      background: var(--accent);
+      border-radius: 50%;
+      top: -3.5px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    @keyframes ringR {
+      from {
+        transform: rotate(0deg)
+      }
+
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .pv-center {
+      position: absolute;
+      text-align: center;
+    }
+
+    .pv-degree {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.8rem;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: .04em;
+    }
+
+    .pv-field {
+      font-size: .62rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: .4rem;
+      font-family: 'Space Mono', monospace;
+      line-height: 1.5;
+    }
+
+    .profile-text p {
+      color: var(--muted);
+      line-height: 1.9;
+      margin-bottom: 1.3rem;
+      font-size: .96rem;
+      font-weight: 300;
+    }
+
+    .profile-text p strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .profile-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-top: 1.8rem;
+    }
+
+    .pill {
+      background: rgba(0, 229, 255, 0.04);
+      border: 1px solid rgba(0, 229, 255, 0.12);
+      border-radius: 2px;
+      padding: .32rem .85rem;
+      font-size: .7rem;
+      color: var(--accent);
+      letter-spacing: .07em;
+      font-family: 'Space Mono', monospace;
+      transition: background .3s, border-color .3s;
+    }
+
+    .pill:hover {
+      background: rgba(0, 229, 255, 0.12);
+      border-color: var(--accent);
+    }
+
+    /* ========= EXPERIENCE ========= */
+    #experience {
+      background: var(--surface);
+    }
+
+    .exp-wrap {
+      margin-top: 4rem;
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .exp-vline {
+      position: absolute;
+      left: 14px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, var(--accent), transparent);
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 2.2rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .exp-dot {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      flex-shrink: 0;
+      box-shadow: 0 0 18px rgba(0, 229, 255, 0.3);
+    }
+
+    .exp-dot::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .exp-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      transition: border-color .3s, transform .35s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent), var(--accent3));
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .exp-card:hover {
+      border-color: rgba(0, 229, 255, .28);
+      transform: translateX(6px);
+      box-shadow: var(--glow);
+    }
+
+    .exp-card:hover::before {
+      opacity: 1;
+    }
+
+    .exp-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: .35rem;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .exp-role {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.45rem;
+      letter-spacing: .05em;
+    }
+
+    .exp-date {
+      font-size: .67rem;
+      color: var(--accent);
+      letter-spacing: .1em;
+      background: rgba(0, 229, 255, .06);
+      border: 1px solid var(--border);
+      padding: .22rem .75rem;
+      border-radius: 2px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .exp-company {
+      color: var(--muted);
+      font-size: .85rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .exp-company strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .exp-bullets {
+      list-style: none;
+    }
+
+    .exp-bullets li {
+      position: relative;
+      padding-left: 1.3rem;
+      color: var(--muted);
+      font-size: .87rem;
+      line-height: 1.8;
+      margin-bottom: .5rem;
+      font-weight: 300;
+    }
+
+    .exp-bullets li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: .75rem;
+    }
+
+    /* ========= PROJECTS ========= */
+    #projects {
+      background: var(--bg);
+    }
+
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.4rem;
+      margin-top: 4rem;
+    }
+
+    .proj-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform .4s, border-color .3s, box-shadow .3s;
+    }
+
+    .proj-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(0, 229, 255, 0.06) 0%, transparent 55%);
+      opacity: 0;
+      transition: opacity .4s;
+      pointer-events: none;
+    }
+
+    .proj-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(0, 229, 255, .28);
+      box-shadow: var(--glow);
+    }
+
+    .proj-card:hover::after {
+      opacity: 1;
+    }
+
+    .proj-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: rgba(0, 229, 255, .05);
+      line-height: 1;
+      position: absolute;
+      top: .6rem;
+      right: 1rem;
+    }
+
+    .proj-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 229, 255, .07);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .proj-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.25rem;
+      margin-bottom: .35rem;
+      letter-spacing: .04em;
+    }
+
+    .proj-client {
+      font-size: .68rem;
+      color: var(--accent);
+      letter-spacing: .1em;
+      margin-bottom: .9rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .proj-desc {
+      color: var(--muted);
+      font-size: .86rem;
+      line-height: 1.78;
+      margin-bottom: 1.4rem;
+      font-weight: 300;
+    }
+
+    .proj-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+    }
+
+    .tag {
+      font-size: .65rem;
+      padding: .2rem .6rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--muted);
+      letter-spacing: .07em;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* ========= SKILLS ========= */
+    #skills {
+      background: var(--surface);
+      padding: 7rem 0;
+    }
+
+    .skills-head {
+      padding: 0 5rem 3rem;
+    }
+
+    .skills-ticker {
+      width: 100%;
+      overflow: hidden;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: .8rem 0;
+      margin-bottom: 0;
+      background: rgba(0, 229, 255, 0.015);
+    }
+
+    .ticker-inner {
+      display: flex;
+      width: max-content;
+      animation: tick 32s linear infinite;
+    }
+
+    .ticker-inner:hover {
+      animation-play-state: paused;
+    }
+
+    @keyframes tick {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(-50%)
+      }
+    }
+
+    .ticker-item {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      padding: 0 1.8rem;
+      font-size: .67rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      white-space: nowrap;
+    }
+
+    .ticker-item.hi {
+      color: var(--accent);
+    }
+
+    .tdot {
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .skills-bento {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .sb {
+      background: var(--surface);
+      padding: 3.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background .3s;
+    }
+
+    .sb:hover {
+      background: var(--surface2);
+    }
+
+    .sb::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity .4s;
+    }
+
+    .sb:hover::before {
+      opacity: 1;
+    }
+
+    .sb--wide {
+      grid-column: span 2;
+    }
+
+    .sb--full {
+      grid-column: span 3;
+      padding: 0;
+      flex-direction: column;
+      display: flex;
+    }
+
+    .sb-label {
+      font-size: .62rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+    }
+
+    .sb-label::before {
+      content: '';
+      width: 12px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .sb-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: .05em;
+      margin-bottom: 1.8rem;
+    }
+
+    .sb-bg {
+      position: absolute;
+      bottom: -1rem;
+      right: .5rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem;
+      color: rgba(0, 229, 255, 0.022);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .comp-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+    }
+
+    .comp-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .55rem 1rem;
+      border: 1px solid rgba(0, 229, 255, 0.1);
+      border-radius: 3px;
+      font-size: .76rem;
+      color: var(--text);
+      font-weight: 300;
+      letter-spacing: .04em;
+      transition: border-color .3s, background .3s, color .3s, transform .25s;
+      background: rgba(0, 229, 255, 0.025);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .comp-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .prof-list {
+      list-style: none;
+    }
+
+    .prof-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .9rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .03);
+      transition: padding-left .25s;
+    }
+
+    .prof-item:hover {
+      padding-left: .5rem;
+    }
+
+    .prof-item:last-child {
+      border-bottom: none;
+    }
+
+    .prof-name {
+      font-size: .86rem;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    .prof-level {
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    .ldot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 229, 255, 0.25);
+    }
+
+    .ldot.f {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 5px rgba(0, 229, 255, 0.4);
+    }
+
+    .ldot.h {
+      background: linear-gradient(90deg, var(--accent) 50%, transparent 50%);
+      border-color: var(--accent);
+    }
+
+    .llabel {
+      font-size: .62rem;
+      color: var(--muted);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+      margin-left: .35rem;
+      min-width: 68px;
+      text-align: right;
+    }
+
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .tool-item {
+      background: var(--surface);
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: .6rem;
+      transition: background .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+
+    .tool-item:hover {
+      background: var(--surface2);
+    }
+
+    .tool-item:hover::after {
+      opacity: 1;
+    }
+
+    .tool-icon {
+      font-size: 1.7rem;
+    }
+
+    .tool-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: .06em;
+    }
+
+    .tool-cat {
+      font-size: .62rem;
+      color: var(--muted);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .tool-desc {
+      font-size: .76rem;
+      color: var(--muted);
+      line-height: 1.55;
+      font-weight: 300;
+    }
+
+    .skills-bottom {
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5rem;
+      display: flex;
+      gap: 4rem;
+    }
+
+    .sb-grp {
+      flex: 1;
+    }
+
+    .sb-grp-title {
+      font-size: .62rem;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 1rem;
+    }
+
+    .sb-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+
+    .sb-tag {
+      padding: .28rem .8rem;
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 2px;
+      font-size: .74rem;
+      color: var(--muted);
+      letter-spacing: .05em;
+      transition: border-color .3s, color .3s;
+    }
+
+    .sb-tag:hover {
+      border-color: rgba(0, 229, 255, .3);
+      color: var(--text);
+    }
+
+    /* ========= EDUCATION ========= */
+    #education {
+      background: var(--bg);
+    }
+
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 1.4rem;
+      margin-top: 4rem;
+    }
+
+    .edu-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem;
+      transition: border-color .3s, transform .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .edu-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent), var(--accent3));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform .4s;
+    }
+
+    .edu-card:hover {
+      border-color: rgba(0, 229, 255, .28);
+      transform: translateY(-4px);
+    }
+
+    .edu-card:hover::after {
+      transform: scaleX(1);
+    }
+
+    .edu-degree {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: .35rem;
+      letter-spacing: .04em;
+    }
+
+    .edu-school {
+      color: var(--accent);
+      font-size: .84rem;
+      margin-bottom: .25rem;
+    }
+
+    .edu-date {
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .06em;
+      margin-bottom: 1.1rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .edu-list {
+      list-style: none;
+    }
+
+    .edu-list li {
+      padding: .3rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .03);
+      font-size: .82rem;
+      color: var(--muted);
+      display: flex;
+      align-items: flex-start;
+      gap: .55rem;
+      font-weight: 300;
+    }
+
+    .edu-list li:last-child {
+      border-bottom: none;
+    }
+
+    .edu-list li::before {
+      content: '◆';
+      color: var(--accent);
+      font-size: .42rem;
+      margin-top: .45rem;
+      flex-shrink: 0;
+    }
+
+    .edu-badge {
+      display: inline-block;
+      margin-top: .9rem;
+      background: rgba(245, 200, 66, .08);
+      border: 1px solid rgba(245, 200, 66, .18);
+      color: var(--gold);
+      font-size: .67rem;
+      padding: .22rem .7rem;
+      border-radius: 2px;
+      letter-spacing: .08em;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* ========= EXTRA ========= */
+    #extra {
+      background: var(--surface);
+    }
+
+    .extra-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      margin-top: 3rem;
+    }
+
+    .extra-item {
+      background: var(--surface);
+      padding: 2rem;
+      transition: background .3s;
+    }
+
+    .extra-item:hover {
+      background: var(--surface2);
+    }
+
+    .extra-icon {
+      font-size: 1.6rem;
+      margin-bottom: .7rem;
+    }
+
+    .extra-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: .06em;
+      margin-bottom: .4rem;
+    }
+
+    .extra-desc {
+      color: var(--muted);
+      font-size: .8rem;
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* ========= CONTACT ========= */
+    #contact {
+      background: var(--bg);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      margin-top: 4rem;
+    }
+
+    .contact-cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1rem;
+      line-height: 1.05;
+      letter-spacing: .04em;
+    }
+
+    .contact-sub {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 2.2rem;
+      font-size: .93rem;
+      font-weight: 300;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--border);
+      transition: padding-left .3s;
+    }
+
+    .contact-item:hover {
+      padding-left: .45rem;
+    }
+
+    .c-icon {
+      width: 42px;
+      height: 42px;
+      background: rgba(0, 229, 255, .07);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: background .3s, border-color .3s;
+    }
+
+    .contact-item:hover .c-icon {
+      background: rgba(0, 229, 255, .14);
+      border-color: var(--accent);
+    }
+
+    .c-label {
+      font-size: .67rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: .18rem;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .c-val {
+      font-size: .9rem;
+    }
+
+    .c-val a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ========= FOOTER ========= */
+    footer {
+      padding: 2rem 5rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .95rem;
+      color: var(--muted);
+      letter-spacing: .12em;
+    }
+
+    .footer-copy {
+      font-size: .68rem;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* ========= REVEAL ========= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity .75s cubic-bezier(.16, 1, .3, 1), transform .75s cubic-bezier(.16, 1, .3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .d1 {
+      transition-delay: .1s;
+    }
+
+    .d2 {
+      transition-delay: .22s;
+    }
+
+    .d3 {
+      transition-delay: .36s;
+    }
+
+    /* ========= HAMBURGER ========= */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: none;
+      padding: 4px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+
+    .mob-nav {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 8, 15, .97);
+      backdrop-filter: blur(24px);
+      z-index: 190;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    .mob-nav.open {
+      display: flex;
+    }
+
+    .mob-nav a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: .08em;
+      transition: color .3s;
+    }
+
+    .mob-nav a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width:960px) {
+
+      nav,
+      nav.scrolled {
+        padding: .85rem 1.5rem;
+      }
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      section {
+        padding: 5rem 1.5rem;
+      }
+
+      #hero {
+        padding: 7rem 1.5rem 5rem;
+      }
+
+      .profile-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .profile-visual {
+        display: none;
+      }
+
+      .hero-stats {
+        position: static;
+        margin-top: 3rem;
+        flex-wrap: wrap;
+      }
+
+      .stat {
+        text-align: left;
+      }
+
+      .scroll-hint {
+        display: none;
+      }
+
+      .skills-head {
+        padding: 0 1.5rem 2.5rem;
+      }
+
+      #skills {
+        padding: 5rem 0;
+      }
+
+      .skills-bento {
+        grid-template-columns: 1fr;
+      }
+
+      .sb--wide,
+      .sb--full {
+        grid-column: span 1;
+      }
+
+      .sb {
+        padding: 2.5rem 1.5rem;
+      }
+
+      .tools-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .skills-bottom {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 2rem 1.5rem;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: .5rem;
+        text-align: center;
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <header class="site-header">
-    <div class="container">
-      <div class="topline">
-        <h1>Sajumon Thadathil Sumon</h1>
-        <div class="links">
-          <a href="mailto:sajuts74@gmail.com">sajuts74@gmail.com</a>
-          <span class="dot">•</span>
-          <a href="https://linkedin.com/in/saju-t-s-200310S04" target="_blank" rel="noopener">LinkedIn</a>
-          <span class="dot">•</span>
-          <!-- Optional: link to your CV PDF if you upload it -->
-          <!-- <a href="assets/docs/Sajumon_CV.pdf" target="_blank" rel="noopener">CV (PDF)</a> -->
-        </div>
-      </div>
 
-      <p class="subtitle">
-        MSc Logistics & Supply Chain Management graduate | Store Manager | Inventory optimisation, reorder planning, process improvement
+  <div id="progress"></div>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">SAJU</a>
+    <ul class="nav-links">
+      <li><a href="#profile">Profile</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="mailto:sajuts74@gmail.com" class="nav-cta">Hire Me ↗</a>
+    <button class="hamburger" id="ham" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+  <div class="mob-nav" id="mobNav">
+    <a href="#profile" onclick="closeMob()">Profile</a>
+    <a href="#experience" onclick="closeMob()">Experience</a>
+    <a href="#projects" onclick="closeMob()">Projects</a>
+    <a href="#skills" onclick="closeMob()">Skills</a>
+    <a href="#education" onclick="closeMob()">Education</a>
+    <a href="#contact" onclick="closeMob()">Contact</a>
+  </div>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+    <div class="hero-orb orb3"></div>
+    <div class="hero-content">
+      <div class="hero-badge"><span class="pulse-dot"></span>Seeking Logistics Analyst / Operations Roles</div>
+      <h1 class="hero-name">
+        <span class="l1">Sajumon</span>
+        <span class="l2">Thadathil Sumon</span>
+      </h1>
+      <p class="hero-tagline">
+        <strong>MSc Logistics &amp; Supply Chain Management</strong> &nbsp;·&nbsp;
+        Store Manager &nbsp;·&nbsp; Operations Analyst<br>
+        <span class="mono">📍 Hull, United Kingdom &nbsp;&nbsp;|&nbsp;&nbsp; sajuts74@gmail.com
       </p>
-
-      <div class="badges">
-        <span class="badge">Logistics Analyst</span>
-        <span class="badge">Operations</span>
-        <span class="badge">Inventory Control</span>
-        <span class="badge">Excel • Power BI • NVivo</span>
-        <span class="badge">Python • C++ • HTML</span>
+      <div class="hero-cta">
+        <a href="#contact" class="btn-primary">↗ Get In Touch</a>
+        <a href="#experience" class="btn-outline">View Experience</a>
       </div>
     </div>
-  </header>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num" data-count="1">0</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-count="4">0</div>
+        <div class="stat-label">Major Projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-count="3">0</div>
+        <div class="stat-label">Degrees / Studies</div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>Scroll to explore
+    </div>
+  </section>
 
-  <main class="container">
-    <section class="section">
-      <h2>About</h2>
-      <p>
-        I am an MSc Logistics and Supply Chain Management graduate currently working as a Store Manager in a UK supermarket. My work focuses on improving operational efficiency, optimising inventory control, and building structured systems to support better decision-making.
-
-I have developed an Excel-based inventory management system to improve stock accuracy, reduce manual errors, support reorder planning, and track expiry dates, and I am currently progressing the system toward a simple app-style interface. I also have experience supporting international trade projects, including export documentation and feasibility analysis for rice exports from India to The Gambia.
-
-My MSc dissertation explored logistics decarbonisation in the Humber region using interview-based research and NVivo thematic analysis, identifying key operational barriers and opportunities such as digitalisation, EV adoption, and stakeholder collaboration.
-
-I am targeting Logistics Analyst and Operations roles where I can use analytical thinking, inventory optimisation, and process improvement to deliver measurable results..
-      </p>
-    </section>
-
-    <section class="section">
-      <h2>Featured Projects</h2>
-
-      <!-- Project 1 -->
-      <article class="card">
-        <div class="card-head">
-          <h3>Inventory Management System (Workplace Project)</h3>
-          <span class="meta">Hull, UK | 2025 – Present</span>
+  <!-- PROFILE -->
+  <section id="profile">
+    <div class="sec-label">01 — Profile</div>
+    <h2 class="sec-title reveal">The Mind Behind<br>the Supply Chain</h2>
+    <div class="profile-grid">
+      <div class="profile-visual reveal">
+        <div class="pv-ring"></div>
+        <div class="pv-ring"></div>
+        <div class="pv-ring"></div>
+        <div class="pv-center">
+          <div class="pv-degree">MSc</div>
+          <div class="pv-field">Logistics &<br>Supply Chain</div>
         </div>
-
-        <p class="tagline">
-          Built an internal inventory tracking system to improve stock accuracy, reorder decisions, and reporting visibility.
+      </div>
+      <div class="profile-text">
+        <p class="reveal">
+          I'm a <strong>Logistics and operations professional</strong> with an MSc in Logistics and Supply Chain Management from
+          the
+          <strong>University of Hull</strong>, currently leading store operations as a <strong>Store Manager at Todays
+            Extra</strong>, Hull.
+          Proven ability to drive operational efficiency through process optimisation, inventory control, and structured
+          workflow design.
         </p>
-
-        <div class="grid">
-          <div>
-            <h4>What I did</h4>
-            <ul>
-              <li>Designed stock tracking structure and workflow logic for inventory updates</li>
-              <li>Improved reorder timing by structuring reorder thresholds and tracking movement patterns</li>
-              <li>Reduced manual errors by standardising data entry and stock checks</li>
-              <li>Currently building a simple HTML interface for easier reporting</li>
-            </ul>
-          </div>
-          <div>
-            <h4>Evidence</h4>
-            <ul>
-              <li><a href="assets/img/inventory-screenshot-1.png" target="_blank" rel="noopener">Screenshot 1 (example)</a></li>
-              <li><a href="assets/img/inventory-screenshot-2.png" target="_blank" rel="noopener">Screenshot 2 (example)</a></li>
-              <li><a href="assets/docs/inventory-system-summary.pdf" target="_blank" rel="noopener">1-page summary (PDF)</a></li>
-            </ul>
-            <p class="note">Tip: upload screenshots + a short PDF summary for recruiters.</p>
-          </div>
-        </div>
-
-        <div class="skills">
-          <span>Skills:</span> Inventory control, reorder planning, process improvement, Excel, Python logic, reporting
-        </div>
-      </article>
-
-      <!-- Project 2 -->
-      <article class="card">
-        <div class="card-head">
-          <h3>Export Documentation & Trade Compliance Framework (India → The Gambia)</h3>
-          <span class="meta">2025</span>
-        </div>
-
-        <p class="tagline">
-          Created a documentation checklist and compliance framework to reduce shipment delays and customs risk.
+        
+        <p class="reveal d1">
+          I combine <strong>analytical expertise with hands-on operational leadership</strong>, with experience in redesigning
+          inventory tracking systems,
+          optimising replenishment cycles, and developing export documentation frameworks for international trade across India,
+          the UK, and African markets.
         </p>
-
-        <div class="grid">
-          <div>
-            <h4>What I did</h4>
-            <ul>
-              <li>Structured mandatory exporter documentation (IEC, APEDA, phytosanitary, fumigation, COO, BL, invoice)</li>
-              <li>Analysed import-side requirements and risks (permits, customs checks, documentation mismatch)</li>
-              <li>Produced a checklist to ensure compliance consistency before dispatch</li>
-            </ul>
-          </div>
-          <div>
-            <h4>Evidence</h4>
-            <ul>
-              <li><a href="assets/docs/rice-export-docs-checklist.pdf" target="_blank" rel="noopener">Docs checklist (PDF)</a></li>
-              <li><a href="assets/docs/rice-export-essential-info.pdf" target="_blank" rel="noopener">Research pack (PDF)</a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="skills">
-          <span>Skills:</span> Export documentation, compliance analysis, trade risk, international logistics, stakeholder support
-        </div>
-      </article>
-
-      <!-- Project 3 -->
-      <article class="card">
-        <div class="card-head">
-          <h3>Trade Feasibility Study (Rice Export Venture)</h3>
-          <span class="meta">2025</span>
-        </div>
-
-        <p class="tagline">
-          Team feasibility study assessing product mix, pricing competitiveness, freight impact, and compliance risk.
+        
+        <p class="reveal d2">
+          Technically proficient in <strong>Python, Power BI, and NVivo</strong>, I leverage data-driven methodologies to
+          enhance supply chain visibility,
+          reduce waste, and support informed decision-making. Recognised for building scalable systems that improve performance,
+          streamline operations,
+          and deliver measurable business impact.
         </p>
+        <div class="profile-pills reveal d3">
+          <span class="pill">Supply Chain Resilience</span>
+          <span class="pill">Process Optimisation</span>
+          <span class="pill">Trade Compliance</span>
+          <span class="pill">Inventory Systems</span>
+          <span class="pill">Data Analytics</span>
+          <span class="pill">Python Automation</span>
+          <span class="pill">Reorder Planning</span>
+          <span class="pill">Net Zero Logistics</span>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="grid">
-          <div>
-            <h4>My contribution</h4>
-            <ul>
-              <li>Pricing benchmarking across rice categories and grades</li>
-              <li>Identified key viability factors: freight volatility, policy risk, demand patterns, quality requirements</li>
-              <li>Supported recommendations on initial SKU mix and market-entry approach</li>
-            </ul>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="sec-label">02 — Experience</div>
+    <h2 class="sec-title reveal">Professional Journey</h2>
+    <p class="sec-sub reveal d1">From export operations in Kottayam to supply chain management in Hull — a career built
+      on systems thinking and operational impact.</p>
+    <div class="exp-wrap">
+      <div class="exp-vline"></div>
+
+      <div class="exp-item reveal">
+        <div class="exp-dot"></div>
+        <div class="exp-card">
+          <div class="exp-meta">
+            <div class="exp-role">Store Manager</div>
+            <div class="exp-date">Dec 2025 – Present</div>
           </div>
-          <div>
-            <h4>Evidence</h4>
-            <ul>
-              <li><a href="assets/docs/feasibility-study-summary.pdf" target="_blank" rel="noopener">Feasibility summary (PDF)</a></li>
-            </ul>
+          <div class="exp-company"><strong>Todays Extra</strong> · Hull, United Kingdom</div>
+          <ul class="exp-bullets">
+            <li>Lead daily retail and stockroom operations within a high-volume environment.</li>
+            <li>Improved operational efficiency by redesigning internal inventory tracking workflows and optimising
+              replenishment cycles.</li>
+            <li>Enhanced reorder timing through analysis of stock movement patterns and demand fluctuations.</li>
+            <li>Reduced manual inventory discrepancies through implementation of structured stock control procedures.
+            </li>
+            <li>Strengthened stock visibility and replenishment accuracy across multiple product categories.</li>
+            <li>Supervise staff scheduling, workflow allocation, supplier coordination, and shrinkage control measures.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item reveal d1">
+        <div class="exp-dot"></div>
+        <div class="exp-card">
+          <div class="exp-meta">
+            <div class="exp-role">Apprentice – Export &amp; Logistics</div>
+            <div class="exp-date">Mar 2023 – Jun 2023</div>
+          </div>
+          <div class="exp-company"><strong>Four S Floral Matt Designing's</strong> · Kottayam, India</div>
+          <ul class="exp-bullets">
+            <li>Supported international export operations to UK and Russian markets.</li>
+            <li>Assisted preparation of export documentation and coordinated shipment processes.</li>
+            <li>Collaborated with production and warehouse teams to ensure dispatch accuracy and compliance standards.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="sec-label">03 — Projects</div>
+    <h2 class="sec-title reveal">Logistics &<br>Analytical Projects</h2>
+    <p class="sec-sub reveal d1">Applied research and real-world system development in logistics, trade compliance, and
+      supply chain analysis.</p>
+    <div class="proj-grid">
+      <div class="proj-card reveal">
+        <div class="proj-num">01</div>
+        <div class="proj-icon">📦</div>
+        <div class="proj-title">Inventory Management System</div>
+        <div class="proj-client">Todays Extra · Hull · Present</div>
+        <p class="proj-desc">Designed and implemented an internal inventory tracking system to improve stock accuracy
+          and operational visibility. Applied Python-based logic to structure reorder thresholds and workflow
+          automation. Currently developing an HTML-based application interface to digitise inventory monitoring and
+          enhance decision support.</p>
+        <div class="proj-tags">
+          <span class="tag">Python</span><span class="tag">HTML</span><span class="tag">Inventory Control</span><span
+            class="tag">Automation</span>
+        </div>
+      </div>
+      <div class="proj-card reveal d1">
+        <div class="proj-num">02</div>
+        <div class="proj-icon">📋</div>
+        <div class="proj-title">Export Documentation &amp; Compliance Framework</div>
+        <div class="proj-client">Vince Franklin (Entrepreneur) · Sep–Dec 2025</div>
+        <p class="proj-desc">Structured mandatory export documentation for a Rice Export venture (India–Gambia)
+          including IEC, APEDA, phytosanitary, fumigation, certificate of origin, and bill of lading. Analysed import
+          compliance requirements and customs risk factors. Developed a structured checklist to mitigate shipment delays
+          and regulatory exposure.</p>
+        <div class="proj-tags">
+          <span class="tag">Trade Compliance</span><span class="tag">Export Docs</span><span class="tag">Regulatory
+            Risk</span><span class="tag">India–Gambia</span>
+        </div>
+      </div>
+      <div class="proj-card reveal d2">
+        <div class="proj-num">03</div>
+        <div class="proj-icon">📊</div>
+        <div class="proj-title">Trade Feasibility Study – Rice Export Venture</div>
+        <div class="proj-client">Vince Franklin (Entrepreneur) · Aug–Dec 2025</div>
+        <p class="proj-desc">Conducted pricing benchmarking and product segmentation analysis across rice categories.
+          Evaluated freight costs, policy risks, demand trends, and compliance challenges. Identified critical
+          operational and commercial risk factors influencing export viability.</p>
+        <div class="proj-tags">
+          <span class="tag">Market Analysis</span><span class="tag">Freight Costs</span><span class="tag">Risk
+            Assessment</span><span class="tag">Feasibility</span>
+        </div>
+      </div>
+      <div class="proj-card reveal d3">
+        <div class="proj-num">04</div>
+        <div class="proj-icon">🌿</div>
+        <div class="proj-title">Dissertation: Decarbonising Logistics in the Humber Region</div>
+        <div class="proj-client">University of Hull · 2024–2025</div>
+        <p class="proj-desc">Conducted primary stakeholder interviews within logistics-intensive firms in the Humber
+          region. Analysed operational and infrastructure barriers to Net Zero transition. Applied NVivo-based
+          structured qualitative analysis to surface key themes and recommendations.</p>
+        <div class="proj-tags">
+          <span class="tag">Sustainable Logistics</span><span class="tag">Net Zero</span><span
+            class="tag">NVivo</span><span class="tag">Humber Region</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="skills-head">
+      <div class="sec-label">04 — Skills</div>
+      <h2 class="sec-title reveal">Technical &<br>Operational Expertise</h2>
+      <p class="sec-sub reveal d1">A comprehensive command across logistics operations, trade compliance, data analysis,
+        and technology — applied to real supply chain challenges.</p>
+    </div>
+
+    <div class="skills-ticker reveal">
+      <div class="ticker-inner">
+        <span class="ticker-item hi"><span class="tdot"></span>Inventory Control</span>
+        <span class="ticker-item"><span class="tdot"></span>Supply Chain Resilience</span>
+        <span class="ticker-item hi"><span class="tdot"></span>Python Automation</span>
+        <span class="ticker-item"><span class="tdot"></span>Trade Compliance</span>
+        <span class="ticker-item hi"><span class="tdot"></span>Power BI</span>
+        <span class="ticker-item"><span class="tdot"></span>Process Optimisation</span>
+        <span class="ticker-item hi"><span class="tdot"></span>Export Documentation</span>
+        <span class="ticker-item"><span class="tdot"></span>Stakeholder Management</span>
+        <span class="ticker-item hi"><span class="tdot"></span>NVivo Analysis</span>
+        <span class="ticker-item"><span class="tdot"></span>Demand Forecasting</span>
+        <span class="ticker-item hi"><span class="tdot"></span>Workflow Design</span>
+        <span class="ticker-item"><span class="tdot"></span>Risk Assessment</span>
+        <span class="ticker-item hi"><span class="tdot"></span>Inventory Control</span>
+        <span class="ticker-item"><span class="tdot"></span>Supply Chain Resilience</span>
+        <span class="ticker-item hi"><span class="tdot"></span>Python Automation</span>
+        <span class="ticker-item"><span class="tdot"></span>Trade Compliance</span>
+        <span class="ticker-item hi"><span class="tdot"></span>Power BI</span>
+        <span class="ticker-item"><span class="tdot"></span>Process Optimisation</span>
+        <span class="ticker-item hi"><span class="tdot"></span>Export Documentation</span>
+        <span class="ticker-item"><span class="tdot"></span>Stakeholder Management</span>
+        <span class="ticker-item hi"><span class="tdot"></span>NVivo Analysis</span>
+        <span class="ticker-item"><span class="tdot"></span>Demand Forecasting</span>
+        <span class="ticker-item hi"><span class="tdot"></span>Workflow Design</span>
+        <span class="ticker-item"><span class="tdot"></span>Risk Assessment</span>
+      </div>
+    </div>
+
+    <div class="skills-bento reveal">
+      <!-- Full-width tools -->
+      <div class="sb sb--full">
+        <div style="padding: 2rem 5rem 1.5rem; border-bottom: 1px solid var(--border);">
+          <div class="sb-label">Tools &amp; Technologies</div>
+        </div>
+        <div class="tools-grid">
+          <div class="tool-item">
+            <div class="tool-icon">🐍</div>
+            <div class="tool-name">Python</div>
+            <div class="tool-cat">Programming</div>
+            <div class="tool-desc">Automation scripts, inventory logic, data processing workflows</div>
+          </div>
+          <div class="tool-item">
+            <div class="tool-icon">📊</div>
+            <div class="tool-name">Power BI</div>
+            <div class="tool-cat">Data Visualisation</div>
+            <div class="tool-desc">Operational dashboards, KPI tracking, supply chain reporting</div>
+          </div>
+          <div class="tool-item">
+            <div class="tool-icon">📗</div>
+            <div class="tool-name">Excel</div>
+            <div class="tool-cat">Analysis</div>
+            <div class="tool-desc">Advanced modelling, pivot analysis, demand forecasting models</div>
+          </div>
+          <div class="tool-item">
+            <div class="tool-icon">🔬</div>
+            <div class="tool-name">NVivo</div>
+            <div class="tool-cat">Qualitative Research</div>
+            <div class="tool-desc">Stakeholder interview coding, thematic analysis, dissertation research</div>
+          </div>
+          <div class="tool-item">
+            <div class="tool-icon">🌐</div>
+            <div class="tool-name">HTML / CSS</div>
+            <div class="tool-cat">Web Development</div>
+            <div class="tool-desc">Internal tools, inventory system interfaces, documentation portals</div>
+          </div>
+          <div class="tool-item">
+            <div class="tool-icon">⚙️</div>
+            <div class="tool-name">C++</div>
+            <div class="tool-cat">Programming</div>
+            <div class="tool-desc">Systems logic, structured problem-solving, algorithmic thinking</div>
+          </div>
+          <div class="tool-item">
+            <div class="tool-icon">🚢</div>
+            <div class="tool-name">Trade Documentation</div>
+            <div class="tool-cat">Compliance</div>
+            <div class="tool-desc">End-to-end export doc preparation for international trade ventures</div>
+          </div>
+          <div class="tool-item">
+            <div class="tool-icon">📦</div>
+            <div class="tool-name">Inventory Systems</div>
+            <div class="tool-cat">Operations</div>
+            <div class="tool-desc">Custom tracking systems, reorder automation, stock accuracy improvement</div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="skills">
-          <span>Skills:</span> Market research, feasibility analysis, cost/risk assessment, documentation readiness
+    <div class="skills-bottom reveal">
+      <div class="sb-grp">
+        <div class="sb-grp-title">Leadership &amp; Soft Skills</div>
+        <div class="sb-tags">
+          <span class="sb-tag">Team Leadership</span>
+          <span class="sb-tag">Stakeholder Communication</span>
+          <span class="sb-tag">Analytical Thinking</span>
+          <span class="sb-tag">Problem Solving</span>
+          <span class="sb-tag">Cross-functional Collaboration</span>
+          <span class="sb-tag">Report Writing</span>
+          <span class="sb-tag">Time Management</span>
+          <span class="sb-tag">Adaptability</span>
         </div>
-      </article>
-
-    </section>
-
-    <section class="section">
-      <h2>Academic Research</h2>
-      <article class="card">
-        <div class="card-head">
-          <h3>MSc Dissertation: Decarbonising Logistics in the Humber Region</h3>
-          <span class="meta">University of Hull | 2025</span>
+      </div>
+      <div class="sb-grp">
+        <div class="sb-grp-title">Languages</div>
+        <div class="sb-tags">
+          <span class="sb-tag">English — Fluent</span>
+          <span class="sb-tag">Malayalam — Native</span>
+          <span class="sb-tag">Hindi — Conversational</span>
         </div>
-        <ul>
-          <li>Primary interviews with logistics-intensive firms; thematic analysis using NVivo</li>
-          <li>Key themes: infrastructure barriers, cost constraints, operational transition pathways</li>
-          <li>Recommendations: digitalisation, EV adoption, circular practices, modal shift</li>
+      </div>
+      <div class="sb-grp">
+        <div class="sb-grp-title">Industry Knowledge</div>
+        <div class="sb-tags">
+          <span class="sb-tag">Retail &amp; FMCG</span>
+          <span class="sb-tag">Agri-Commodity Export</span>
+          <span class="sb-tag">Port &amp; Humber Logistics</span>
+          <span class="sb-tag">Sustainable Supply Chain</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="sec-label">05 — Education</div>
+    <h2 class="sec-title reveal">Academic Foundation</h2>
+    <p class="sec-sub reveal d1">A multidisciplinary academic path spanning logistics, literature, and computer science.
+    </p>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-degree">MSc Logistics &amp; Supply Chain Management</div>
+        <div class="edu-school">University of Hull</div>
+        <div class="edu-date">September 2024 – September 2025 · Hull, England</div>
+        <ul class="edu-list">
+          <li>Operations Management</li>
+          <li>Global Logistics &amp; Procurement</li>
+          <li>Supply Chain Resilience</li>
+          <li>Sustainable Logistics</li>
+          <li>Dissertation: Decarbonising Logistics in the Humber Region</li>
         </ul>
-        <p>
-          <a href="assets/docs/dissertation-abstract.pdf" target="_blank" rel="noopener">Read dissertation abstract (PDF)</a>
-          <!-- Optional: add full dissertation if allowed -->
-        </p>
-      </article>
-    </section>
+        <span class="edu-badge">🎓 Postgraduate</span>
+      </div>
+      <div class="edu-card reveal d1">
+        <div class="edu-degree">BA English Language and Literature</div>
+        <div class="edu-school">MG University</div>
+        <div class="edu-date">June 2021 – May 2024 · Kottayam, India</div>
+        <ul class="edu-list">
+          <li>Strong analytical, research, and structured reporting skills</li>
+          <li>English Association President</li>
+          <li>Leadership and organisational development</li>
+        </ul>
+        <span class="edu-badge">🎓 Undergraduate</span>
+      </div>
+      <div class="edu-card reveal d2">
+        <div class="edu-degree">Higher Secondary Studies</div>
+        <div class="edu-school">Adwaitha Vidyasramam Higher Secondary School</div>
+        <div class="edu-date">2019 – 2021</div>
+        <ul class="edu-list">
+          <li>Specialised in Computer Science</li>
+          <li>Python and C++ programming fundamentals</li>
+          <li>Member of School Web Development Team</li>
+          <li>Structured problem-solving &amp; system design</li>
+        </ul>
+        <span class="edu-badge">📚 Secondary</span>
+      </div>
+    </div>
+  </section>
 
-    <section class="section">
-      <h2>Contact</h2>
-      <p>
-        Email: <a href="mailto:sajuts74@gmail.com">sajuts74@gmail.com</a><br/>
-        LinkedIn: <a href="https://linkedin.com/in/saju-t-s-200310S04" target="_blank" rel="noopener">linkedin.com/in/saju-t-s-200310S04</a>
-      </p>
-    </section>
+  <!-- EXTRACURRICULAR -->
+  <section id="extra">
+    <div class="sec-label">06 — Extracurricular</div>
+    <h2 class="sec-title reveal">Beyond the Workplace</h2>
+    <p class="sec-sub reveal d1">Leadership, sport, and cultural engagement reflecting drive, teamwork, and community
+      involvement.</p>
+    <div class="extra-grid reveal">
+      <div class="extra-item">
+        <div class="extra-icon">🏏</div>
+        <div class="extra-title">Cricket Captain</div>
+        <div class="extra-desc">Nattakom Government College cricket team — led squad strategy, team coordination, and
+          match preparation.</div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-icon">🏟️</div>
+        <div class="extra-title">Hull Strikers Cricket Club</div>
+        <div class="extra-desc">Current active team member, engaging in competitive cricket within the Hull community.
+        </div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-icon">⚾</div>
+        <div class="extra-title">University Baseball</div>
+        <div class="extra-desc">Participated in university-level baseball competitions, demonstrating cross-sport
+          athletic commitment.</div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-icon">🎬</div>
+        <div class="extra-title">Film Club Treasurer</div>
+        <div class="extra-desc">Served as Treasurer of the Film Club, managing finances, event planning, and club
+          operations.</div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-icon">📢</div>
+        <div class="extra-title">English Association President</div>
+        <div class="extra-desc">Led MG University's English Association — organised events, managed members, and
+          represented the student body.</div>
+      </div>
+      <div class="extra-item">
+        <div class="extra-icon">💻</div>
+        <div class="extra-title">School Web Dev Team</div>
+        <div class="extra-desc">Contributing member of Adwaitha Vidyasramam's web development team during secondary
+          studies.</div>
+      </div>
+    </div>
+  </section>
 
-    <footer class="footer">
-      <p>References available upon request.</p>
-    </footer>
-  </main>
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="sec-label">07 — Contact</div>
+    <div class="contact-grid">
+      <div class="reveal">
+        <h2 class="contact-cta-title">Let's Build Something<br>That Moves</h2>
+        <p class="contact-sub">I'm actively seeking Logistics Analyst or Operations roles focused on process
+          optimisation, performance monitoring, and data-driven decision-making. Based in Hull, open to opportunities
+          across the UK.</p>
+        <a href="mailto:sajuts74@gmail.com" class="btn-primary">Send a Message ↗</a>
+      </div>
+      <div class="reveal d1">
+        <div class="contact-item">
+          <div class="c-icon">✉️</div>
+          <div>
+            <div class="c-label">Email</div>
+            <div class="c-val"><a href="mailto:sajuts74@gmail.com">sajuts74@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">📞</div>
+          <div>
+            <div class="c-label">Phone</div>
+            <div class="c-val">+44 7887 155397</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">📍</div>
+          <div>
+            <div class="c-label">Location</div>
+            <div class="c-val">Hull, United Kingdom</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">💼</div>
+          <div>
+            <div class="c-label">LinkedIn</div>
+            <div class="c-val"><a href="https://linkedin.com/in/saju-t-s-200310S04"
+                target="_blank">saju-t-s-200310S04</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Sajumon Thadathil Sumon</div>
+    <div class="footer-copy">MSc Logistics &amp; Supply Chain Management · Hull, UK · 2025</div>
+  </footer>
+
+  <script>
+    // CURSOR
+    const cur = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx + 'px'; cur.style.top = my + 'px'; });
+    (function raf() { rx += (mx - rx) * .11; ry += (my - ry) * .11; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(raf); })();
+    document.querySelectorAll('a,button,.proj-card,.exp-card,.edu-card,.tool-item,.comp-tag,.extra-item').forEach(el => {
+      el.addEventListener('mouseenter', () => { cur.classList.add('hover'); ring.classList.add('hover'); });
+      el.addEventListener('mouseleave', () => { cur.classList.remove('hover'); ring.classList.remove('hover'); });
+    });
+
+    // NAV
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
+
+    // PROGRESS
+    const pb = document.getElementById('progress');
+    window.addEventListener('scroll', () => pb.style.width = (scrollY / (document.documentElement.scrollHeight - innerHeight) * 100) + '%');
+
+    // REVEAL
+    const ro = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }), { threshold: .08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+    // COUNTER
+    function animCount(el, t) { const s = performance.now(), d = 1800; (function f(n) { const p = Math.min((n - s) / d, 1), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.floor(e * t) + '+'; if (p < 1) requestAnimationFrame(f); else el.textContent = t + '+'; })(s); }
+    const sObs = new IntersectionObserver(e => { if (e[0].isIntersecting) { document.querySelectorAll('[data-count]').forEach(el => animCount(el, +el.dataset.count)); sObs.disconnect(); } }, { threshold: .5 });
+    const sEl = document.querySelector('.hero-stats'); if (sEl) sObs.observe(sEl);
+
+    // PROJECT GLOW
+    document.querySelectorAll('.proj-card').forEach(c => { c.addEventListener('mousemove', e => { const r = c.getBoundingClientRect(); c.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%'); c.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%'); }); });
+
+    // MOBILE NAV
+    document.getElementById('ham').addEventListener('click', () => document.getElementById('mobNav').classList.toggle('open'));
+    function closeMob() { document.getElementById('mobNav').classList.remove('open'); }
+
+    // SMOOTH SCROLL
+    document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if (t) t.scrollIntoView({ behavior: 'smooth' }); }); });
+
+    // CANVAS BACKGROUND
+    const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
+    let W, H;
+    function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+    resize(); window.addEventListener('resize', resize);
+
+    class Node { constructor() { this.reset(true); } reset(i) { this.x = Math.random() * W; this.y = i ? Math.random() * H : (Math.random() > .5 ? -20 : H + 20); this.vx = (Math.random() - .5) * .3; this.vy = (Math.random() - .5) * .3; this.size = Math.random() * 2 + 1; this.a = Math.random() * .5 + .2; this.pulse = Math.random() * Math.PI * 2; this.ps = .015 + Math.random() * .018; this.hub = Math.random() < .07; if (this.hub) { this.size = Math.random() * 3 + 3; this.a = .75; } } update() { this.x += this.vx; this.y += this.vy; this.pulse += this.ps; if (this.x < -30 || this.x > W + 30 || this.y < -30 || this.y > H + 30) this.reset(false); } draw() { const a = this.a * (.7 + .3 * Math.sin(this.pulse)); ctx.save(); ctx.globalAlpha = a; if (this.hub) { ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = 1; ctx.shadowBlur = 8; ctx.shadowColor = '#00e5ff'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * 1.6, 0, Math.PI * 2); ctx.stroke(); ctx.fillStyle = '#00e5ff'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * .45, 0, Math.PI * 2); ctx.fill(); } else { ctx.fillStyle = '#00e5ff'; ctx.shadowBlur = 3; ctx.shadowColor = '#00e5ff'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size * .55, 0, Math.PI * 2); ctx.fill(); } ctx.restore(); } }
+
+    class Cargo { constructor() { this.reset(); } reset() { const s = Math.floor(Math.random() * 4); if (s === 0) { this.x = Math.random() * W; this.y = -15; } else if (s === 1) { this.x = W + 15; this.y = Math.random() * H; } else if (s === 2) { this.x = Math.random() * W; this.y = H + 15; } else { this.x = -15; this.y = Math.random() * H; } const a = Math.atan2(H / 2 - this.y, W / 2 - this.x) + (Math.random() - .5) * 1.4, sp = .4 + Math.random() * 1; this.vx = Math.cos(a) * sp; this.vy = Math.sin(a) * sp; this.sz = 3 + Math.random() * 3; this.a = .35 + Math.random() * .35; this.col = Math.random() < .28 ? '#ff6b2b' : '#00e5ff'; this.trail = []; } update() { this.trail.push({ x: this.x, y: this.y }); if (this.trail.length > 10) this.trail.shift(); this.x += this.vx; this.y += this.vy; if (this.x < -40 || this.x > W + 40 || this.y < -40 || this.y > H + 40) this.reset(); } draw() { for (let i = 0; i < this.trail.length; i++) { const t = i / this.trail.length; ctx.save(); ctx.globalAlpha = t * this.a * .28; ctx.fillStyle = this.col; ctx.fillRect(this.trail[i].x - 1, this.trail[i].y - 1, 2, 2); ctx.restore(); } ctx.save(); ctx.globalAlpha = this.a; ctx.fillStyle = this.col; ctx.shadowBlur = 7; ctx.shadowColor = this.col; ctx.fillRect(this.x - this.sz / 2, this.y - this.sz / 2, this.sz, this.sz); ctx.restore(); } }
+
+    const nodes = Array.from({ length: 85 }, () => new Node());
+    const cargo = Array.from({ length: 18 }, () => new Cargo());
+
+    function connect() { for (let i = 0; i < nodes.length; i++)for (let j = i + 1; j < nodes.length; j++) { const dx = nodes[i].x - nodes[j].x, dy = nodes[i].y - nodes[j].y, d = Math.sqrt(dx * dx + dy * dy), th = (nodes[i].hub || nodes[j].hub) ? 170 : 85; if (d < th) { const a = (1 - d / th) * .09 * (nodes[i].hub || nodes[j].hub ? 2 : 1); ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = '#00e5ff'; ctx.lineWidth = nodes[i].hub || nodes[j].hub ? 1 : .4; ctx.setLineDash([4, 8]); ctx.lineDashOffset = -performance.now() * .018; ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke(); ctx.setLineDash([]); ctx.restore(); } } }
+
+    function frame() { ctx.clearRect(0, 0, W, H); connect(); nodes.forEach(n => { n.update(); n.draw(); }); cargo.forEach(c => { c.update(); c.draw(); }); requestAnimationFrame(frame); }
+    frame();
+  </script>
 </body>
+
 </html>
