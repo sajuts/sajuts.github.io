@@ -1,0 +1,492 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);background:var(--color-background-tertiary);color:var(--color-text-primary)}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.nav{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 1.5rem;display:flex;align-items:center;gap:0;height:52px}
+.nav-brand{display:flex;align-items:center;gap:8px;font-weight:500;font-size:15px;margin-right:2rem;color:var(--color-text-primary)}
+.nav-brand .logo{width:28px;height:28px;background:#1D9E75;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px}
+.nav-tabs{display:flex;gap:0;flex:1}
+.nav-tab{padding:0 1rem;height:52px;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--color-text-secondary);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap;transition:color 0.15s}
+.nav-tab:hover{color:var(--color-text-primary)}
+.nav-tab.active{color:#0F6E56;border-bottom-color:#1D9E75;font-weight:500}
+.main{flex:1;padding:1.5rem;max-width:1000px;margin:0 auto;width:100%}
+.page{display:none}.page.active{display:block}
+
+/* Home */
+.hero{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:2.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:#E1F5EE;color:#0F6E56;font-size:12px;padding:4px 10px;border-radius:20px;margin-bottom:1rem;font-weight:500}
+.hero h1{font-size:26px;font-weight:500;line-height:1.3;margin-bottom:0.75rem}
+.hero p{color:var(--color-text-secondary);font-size:14px;line-height:1.6;max-width:520px;margin-bottom:1.5rem}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:#1D9E75;color:#fff;border:none;padding:10px 20px;border-radius:var(--border-radius-md);font-size:14px;font-weight:500;cursor:pointer}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:1.5rem}
+.feature-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem}
+.feature-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:0.75rem;font-size:18px}
+.feature-card h3{font-size:13px;font-weight:500;margin-bottom:4px}
+.feature-card p{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;text-align:center}
+.stat-card .num{font-size:22px;font-weight:500;color:#1D9E75}
+.stat-card .lbl{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+
+/* Form */
+.form-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.5rem;margin-bottom:1.5rem}
+.form-card h2{font-size:16px;font-weight:500;margin-bottom:4px}
+.form-card .sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:1.25rem}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+.form-group label{font-size:12px;font-weight:500;color:var(--color-text-secondary)}
+.form-group input,.form-group select{font-size:13px;padding:8px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary)}
+.submit-btn{width:100%;margin-top:1rem;background:#1D9E75;color:#fff;border:none;padding:11px;border-radius:var(--border-radius-md);font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.submit-btn:disabled{opacity:0.6;cursor:not-allowed}
+
+/* Results */
+.results-header{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1rem;display:flex;align-items:center;gap:12px}
+.results-header .route-pill{background:#E1F5EE;color:#0F6E56;font-size:13px;padding:6px 12px;border-radius:20px;font-weight:500;display:flex;align-items:center;gap:6px}
+.section-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.section-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem}
+.section-card.full{grid-column:1/-1}
+.section-card h3{font-size:13px;font-weight:500;margin-bottom:0.75rem;display:flex;align-items:center;gap:6px;color:var(--color-text-secondary)}
+.section-card h3 i{font-size:16px}
+.tag-list{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;padding:4px 10px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
+.tag.green{background:#E1F5EE;color:#0F6E56}
+.tag.amber{background:#FAEEDA;color:#854F0B}
+.tag.red{background:#FCEBEB;color:#A32D2D}
+.tag.blue{background:#E6F1FB;color:#185FA5}
+.bullet-list{list-style:none;display:flex;flex-direction:column;gap:6px}
+.bullet-list li{font-size:13px;color:var(--color-text-primary);display:flex;align-items:flex-start;gap:6px;line-height:1.5}
+.bullet-list li:before{content:'·';color:#1D9E75;font-weight:700;margin-top:1px;flex-shrink:0}
+.risk-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px;line-height:1.5}
+.risk-item:last-child{border-bottom:none;padding-bottom:0}
+.risk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.risk-dot.high{background:#E24B4A}
+.risk-dot.med{background:#EF9F27}
+.risk-dot.low{background:#639922}
+.transport-option{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.transport-option:last-child{border-bottom:none}
+.transport-option .t-label{font-size:13px;font-weight:500;flex:1}
+.transport-option .t-time{font-size:12px;color:var(--color-text-secondary)}
+.recommended-badge{font-size:11px;background:#E1F5EE;color:#0F6E56;padding:2px 8px;border-radius:10px}
+.inco-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.inco-item{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px}
+.inco-item .inco-code{font-size:15px;font-weight:500;color:#0F6E56}
+.inco-item .inco-desc{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.carrier-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary);font-size:13px}
+.carrier-row:last-child{border-bottom:none}
+.loader{display:flex;align-items:center;justify-content:center;gap:10px;padding:3rem;color:var(--color-text-secondary);font-size:14px}
+.spinner{width:20px;height:20px;border:2px solid var(--color-border-tertiary);border-top-color:#1D9E75;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-box{background:#FCEBEB;border:0.5px solid var(--color-border-danger);border-radius:var(--border-radius-md);padding:1rem;color:var(--color-text-danger);font-size:13px;display:flex;gap:8px;align-items:flex-start}
+
+/* History */
+.history-empty{text-align:center;padding:3rem;color:var(--color-text-secondary);font-size:14px}
+.history-item{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.history-item:hover{border-color:var(--color-border-secondary)}
+.history-meta{flex:1}
+.history-route{font-size:14px;font-weight:500}
+.history-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+.history-time{font-size:11px;color:var(--color-text-tertiary)}
+
+/* Admin */
+.admin-tabs{display:flex;gap:8px;margin-bottom:1.25rem}
+.admin-tab{padding:6px 14px;border-radius:var(--border-radius-md);font-size:13px;border:0.5px solid var(--color-border-tertiary);cursor:pointer;background:var(--color-background-primary);color:var(--color-text-secondary)}
+.admin-tab.active{background:#E1F5EE;color:#0F6E56;border-color:#5DCAA5}
+.kb-item{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem;margin-bottom:8px}
+.kb-item h4{font-size:13px;font-weight:500;margin-bottom:4px}
+.kb-item p{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.kb-badge{font-size:11px;padding:2px 8px;border-radius:10px;margin-right:6px}
+</style>
+
+<div class="app">
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="logo"><i class="ti ti-route" aria-hidden="true"></i></div>
+      TradeRoute AI
+    </div>
+    <div class="nav-tabs">
+      <div class="nav-tab active" data-page="home"><i class="ti ti-home" aria-hidden="true"></i> Home</div>
+      <div class="nav-tab" data-page="analyze"><i class="ti ti-analyze" aria-hidden="true"></i> Shipment Analysis</div>
+      <div class="nav-tab" data-page="history"><i class="ti ti-history" aria-hidden="true"></i> History</div>
+      <div class="nav-tab" data-page="admin"><i class="ti ti-database" aria-hidden="true"></i> Knowledge Base</div>
+    </div>
+  </nav>
+
+  <div class="main">
+    <!-- HOME PAGE -->
+    <div class="page active" id="page-home">
+      <div class="hero">
+        <div class="hero-badge"><i class="ti ti-sparkles" style="font-size:14px" aria-hidden="true"></i> AI-powered logistics intelligence</div>
+        <h1>Global trade compliance &<br>shipment analysis</h1>
+        <p>Enter your shipment details and get instant AI analysis covering documents, transport modes, incoterms, customs compliance, carriers, and risk warnings.</p>
+        <button class="hero-cta" onclick="switchPage('analyze')">
+          <i class="ti ti-arrow-right" aria-hidden="true"></i> Analyze a shipment
+        </button>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#E1F5EE"><i class="ti ti-file-certificate" style="color:#0F6E56;font-size:18px" aria-hidden="true"></i></div>
+          <h3>Required documents</h3>
+          <p>Customs declarations, certificates of origin, bills of lading, and more.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#E6F1FB"><i class="ti ti-truck" style="color:#185FA5;font-size:18px" aria-hidden="true"></i></div>
+          <h3>Transport modes</h3>
+          <p>Air, sea, road, and rail recommendations based on your shipment profile.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#FAEEDA"><i class="ti ti-scale" style="color:#854F0B;font-size:18px" aria-hidden="true"></i></div>
+          <h3>Incoterms guidance</h3>
+          <p>Optimal trade terms to minimize risk and cost for both parties.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#FCEBEB"><i class="ti ti-alert-triangle" style="color:#A32D2D;font-size:18px" aria-hidden="true"></i></div>
+          <h3>Risk warnings</h3>
+          <p>Sanctions, restrictions, tariff duties, and compliance flags.</p>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><div class="num">190+</div><div class="lbl">Countries covered</div></div>
+        <div class="stat-card"><div class="num">50+</div><div class="lbl">Carrier recommendations</div></div>
+        <div class="stat-card"><div class="num">11</div><div class="lbl">Incoterms 2020 rules</div></div>
+      </div>
+    </div>
+
+    <!-- ANALYSIS PAGE -->
+    <div class="page" id="page-analyze">
+      <div class="form-card">
+        <h2>New shipment analysis</h2>
+        <div class="sub">Enter shipment details to receive a full compliance and logistics recommendation.</div>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Product name / description</label>
+            <input type="text" id="inp-product" placeholder="e.g. Lithium-ion batteries, Electronic components…">
+          </div>
+          <div class="form-group">
+            <label>Origin country</label>
+            <input type="text" id="inp-origin" placeholder="e.g. China, Germany, USA…">
+          </div>
+          <div class="form-group">
+            <label>Destination country</label>
+            <input type="text" id="inp-dest" placeholder="e.g. United Kingdom, Brazil…">
+          </div>
+          <div class="form-group">
+            <label>Total weight (kg)</label>
+            <input type="number" id="inp-weight" placeholder="e.g. 500">
+          </div>
+          <div class="form-group">
+            <label>Quantity (units)</label>
+            <input type="number" id="inp-qty" placeholder="e.g. 100">
+          </div>
+          <div class="form-group">
+            <label>Declared value (USD)</label>
+            <input type="number" id="inp-value" placeholder="e.g. 25000">
+          </div>
+          <div class="form-group">
+            <label>HS code (optional)</label>
+            <input type="text" id="inp-hs" placeholder="e.g. 8507.60">
+          </div>
+        </div>
+        <button class="submit-btn" id="analyze-btn" onclick="runAnalysis()">
+          <i class="ti ti-sparkles" aria-hidden="true"></i> Analyze shipment
+        </button>
+      </div>
+      <div id="results-area"></div>
+    </div>
+
+    <!-- HISTORY PAGE -->
+    <div class="page" id="page-history">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <div>
+          <div style="font-size:16px;font-weight:500">Shipment history</div>
+          <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Your recent analysis results</div>
+        </div>
+        <button onclick="clearHistory()" style="font-size:12px;color:var(--color-text-secondary);background:none;border:0.5px solid var(--color-border-tertiary);padding:5px 12px;border-radius:var(--border-radius-md);cursor:pointer">Clear all</button>
+      </div>
+      <div id="history-list"></div>
+    </div>
+
+    <!-- ADMIN PAGE -->
+    <div class="page" id="page-admin">
+      <div style="margin-bottom:1.25rem">
+        <div style="font-size:16px;font-weight:500">Knowledge base</div>
+        <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Reference data used to inform AI analysis</div>
+      </div>
+      <div class="admin-tabs">
+        <div class="admin-tab active" onclick="switchAdminTab('incoterms',this)">Incoterms 2020</div>
+        <div class="admin-tab" onclick="switchAdminTab('docs',this)">Document types</div>
+        <div class="admin-tab" onclick="switchAdminTab('modes',this)">Transport modes</div>
+        <div class="admin-tab" onclick="switchAdminTab('risks',this)">Risk categories</div>
+      </div>
+      <div id="admin-content"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DB = {
+  history: JSON.parse(sessionStorage.getItem('tr_history')||'[]')
+};
+
+function saveHistory(){sessionStorage.setItem('tr_history',JSON.stringify(DB.history))}
+
+function switchPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.querySelector('[data-page="'+name+'"]').classList.add('active');
+  if(name==='history') renderHistory();
+  if(name==='admin') renderAdmin('incoterms');
+}
+document.querySelectorAll('.nav-tab').forEach(t=>{
+  t.addEventListener('click',()=>switchPage(t.dataset.page));
+});
+
+async function runAnalysis(){
+  const product=document.getElementById('inp-product').value.trim();
+  const origin=document.getElementById('inp-origin').value.trim();
+  const dest=document.getElementById('inp-dest').value.trim();
+  const weight=document.getElementById('inp-weight').value;
+  const qty=document.getElementById('inp-qty').value;
+  const value=document.getElementById('inp-value').value;
+  const hs=document.getElementById('inp-hs').value.trim();
+  if(!product||!origin||!dest){
+    document.getElementById('results-area').innerHTML=`<div class="error-box"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0;margin-top:1px"></i>Please fill in at least product name, origin country, and destination country.</div>`;
+    return;
+  }
+  const btn=document.getElementById('analyze-btn');
+  btn.disabled=true;
+  document.getElementById('results-area').innerHTML=`<div class="loader"><div class="spinner"></div> Analyzing shipment with AI…</div>`;
+
+  const prompt=`You are TradeRoute AI, an expert international trade and logistics compliance system. Analyze this shipment and return a detailed JSON response.
+
+Shipment details:
+- Product: ${product}
+- HS Code: ${hs||'Not provided'}
+- Origin: ${origin}
+- Destination: ${dest}
+- Weight: ${weight||'Not specified'} kg
+- Quantity: ${qty||'Not specified'} units
+- Declared Value: ${value?'USD '+value:'Not specified'}
+
+Return ONLY valid JSON (no markdown, no backticks) with this exact structure:
+{
+  "summary": "One sentence summary of the shipment route and key considerations",
+  "documents": [
+    {"name": "document name", "required": true/false, "note": "brief note"}
+  ],
+  "transport": [
+    {"mode": "Air/Sea/Road/Rail", "recommended": true/false, "transit": "X-Y days", "reason": "brief reason", "icon": "plane/ship/truck/train"}
+  ],
+  "incoterms": [
+    {"code": "EXW", "name": "Ex Works", "suitable": true/false, "reason": "why suitable or not"}
+  ],
+  "customs": {
+    "import_duty": "estimated duty rate or range",
+    "vat_gst": "VAT/GST rate if applicable",
+    "controls": ["list of any export controls, licenses, restrictions"],
+    "notes": ["key customs considerations as array of strings"]
+  },
+  "carriers": [
+    {"name": "carrier name", "type": "Air/Sea/Road", "rating": "★★★★☆", "note": "brief note"}
+  ],
+  "transit": {
+    "fastest": "X days by air",
+    "standard": "Y-Z days by sea",
+    "economy": "A-B days"
+  },
+  "risks": [
+    {"level": "high/medium/low", "title": "Risk title", "description": "description"}
+  ]
+}`;
+
+  try{
+    const resp=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        messages:[{role:'user',content:prompt}]
+      })
+    });
+    const data=await resp.json();
+    const text=data.content.map(i=>i.text||'').join('');
+    let analysis;
+    try{
+      const clean=text.replace(/```json|```/g,'').trim();
+      analysis=JSON.parse(clean);
+    }catch(e){
+      throw new Error('Could not parse AI response');
+    }
+    const entry={id:Date.now(),product,origin,dest,weight,qty,value,hs,analysis,timestamp:new Date().toISOString()};
+    DB.history.unshift(entry);
+    if(DB.history.length>20)DB.history=DB.history.slice(0,20);
+    saveHistory();
+    renderResults(analysis,{product,origin,dest});
+  }catch(err){
+    document.getElementById('results-area').innerHTML=`<div class="error-box"><i class="ti ti-alert-circle" style="font-size:18px;flex-shrink:0;margin-top:1px"></i>${err.message||'Analysis failed. Please try again.'}</div>`;
+  }
+  btn.disabled=false;
+}
+
+function renderResults(a,meta){
+  const modeIcon={'Air':'ti-plane','Sea':'ti-anchor','Road':'ti-truck','Rail':'ti-train'};
+  const riskColor={'high':'red','medium':'amber','low':'green'};
+  const docItems=a.documents.map(d=>`<li><span style="font-size:12px;font-weight:500">${d.name}</span>${d.required?'<span class="tag green" style="font-size:10px;padding:1px 7px;margin-left:6px">Required</span>':'<span class="tag" style="font-size:10px;padding:1px 7px;margin-left:6px">Optional</span>'}<span style="font-size:11px;color:var(--color-text-secondary);display:block;margin-top:2px">${d.note||''}</span></li>`).join('');
+  const transportItems=(a.transport||[]).map(t=>`<div class="transport-option"><i class="ti ${modeIcon[t.mode]||'ti-package'}" style="font-size:18px;color:var(--color-text-secondary)" aria-hidden="true"></i><div style="flex:1"><div class="t-label">${t.mode} <span class="t-time">${t.transit}</span></div><div style="font-size:11px;color:var(--color-text-secondary)">${t.reason||''}</div></div>${t.recommended?'<span class="recommended-badge">Recommended</span>':''}</div>`).join('');
+  const suitableInco=(a.incoterms||[]).filter(i=>i.suitable).slice(0,4);
+  const incoItems=suitableInco.map(i=>`<div class="inco-item"><div class="inco-code">${i.code}</div><div style="font-size:12px;font-weight:500;margin-top:1px">${i.name}</div><div class="inco-desc">${i.reason||''}</div></div>`).join('');
+  const customsNotes=(a.customs?.notes||[]).map(n=>`<li>${n}</li>`).join('');
+  const carrierItems=(a.carriers||[]).slice(0,5).map(c=>`<div class="carrier-row"><div><div style="font-weight:500">${c.name}</div><div style="font-size:11px;color:var(--color-text-secondary)">${c.type} · ${c.note||''}</div></div><div style="font-size:13px;color:#EF9F27">${c.rating||''}</div></div>`).join('');
+  const riskItems=(a.risks||[]).map(r=>`<div class="risk-item"><div class="risk-dot ${riskColor[r.level]||'low'}"></div><div><div style="font-size:13px;font-weight:500">${r.title}</div><div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">${r.description}</div></div></div>`).join('');
+  document.getElementById('results-area').innerHTML=`
+<div class="results-header">
+  <i class="ti ti-check-circle" style="font-size:22px;color:#1D9E75" aria-hidden="true"></i>
+  <div style="flex:1">
+    <div style="font-size:14px;font-weight:500">Analysis complete</div>
+    <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">${a.summary||''}</div>
+  </div>
+  <div class="route-pill"><i class="ti ti-arrow-right" style="font-size:13px" aria-hidden="true"></i>${meta.origin} → ${meta.dest}</div>
+</div>
+<div class="section-grid">
+  <div class="section-card">
+    <h3><i class="ti ti-file-text" aria-hidden="true"></i> Required documents</h3>
+    <ul class="bullet-list">${docItems}</ul>
+  </div>
+  <div class="section-card">
+    <h3><i class="ti ti-truck" aria-hidden="true"></i> Transport options</h3>
+    ${transportItems}
+  </div>
+  <div class="section-card">
+    <h3><i class="ti ti-scale" aria-hidden="true"></i> Recommended incoterms</h3>
+    <div class="inco-grid">${incoItems||'<span style="font-size:12px;color:var(--color-text-secondary)">No specific recommendations</span>'}</div>
+  </div>
+  <div class="section-card">
+    <h3><i class="ti ti-building-bank" aria-hidden="true"></i> Customs & compliance</h3>
+    <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
+      ${a.customs?.import_duty?`<span class="tag blue">Duty: ${a.customs.import_duty}</span>`:''}
+      ${a.customs?.vat_gst?`<span class="tag">VAT/GST: ${a.customs.vat_gst}</span>`:''}
+    </div>
+    ${a.customs?.controls?.length?`<div style="font-size:12px;color:#A32D2D;margin-bottom:8px;font-weight:500">Export controls: ${a.customs.controls.join(', ')}</div>`:''}
+    <ul class="bullet-list">${customsNotes}</ul>
+  </div>
+  <div class="section-card">
+    <h3><i class="ti ti-building-warehouse" aria-hidden="true"></i> Suggested carriers</h3>
+    ${carrierItems}
+  </div>
+  <div class="section-card">
+    <h3><i class="ti ti-clock" aria-hidden="true"></i> Transit time estimates</h3>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${a.transit?.fastest?`<div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)"><span style="color:var(--color-text-secondary)">Fastest</span><span class="tag green" style="font-size:12px">${a.transit.fastest}</span></div>`:''}
+      ${a.transit?.standard?`<div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)"><span style="color:var(--color-text-secondary)">Standard</span><span class="tag blue" style="font-size:12px">${a.transit.standard}</span></div>`:''}
+      ${a.transit?.economy?`<div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0"><span style="color:var(--color-text-secondary)">Economy</span><span class="tag" style="font-size:12px">${a.transit.economy}</span></div>`:''}
+    </div>
+  </div>
+  <div class="section-card full">
+    <h3><i class="ti ti-alert-triangle" aria-hidden="true"></i> Risk warnings</h3>
+    ${riskItems||'<span style="font-size:13px;color:var(--color-text-secondary)">No significant risks identified.</span>'}
+  </div>
+</div>`;
+}
+
+function renderHistory(){
+  const el=document.getElementById('history-list');
+  if(!DB.history.length){el.innerHTML='<div class="history-empty"><i class="ti ti-inbox" style="font-size:32px;display:block;margin-bottom:8px;opacity:0.4"></i>No shipment analyses yet.<br>Run your first analysis to see results here.</div>';return;}
+  el.innerHTML=DB.history.map(h=>`
+<div class="history-item" onclick="loadHistoryItem('${h.id}')">
+  <div style="width:36px;height:36px;background:#E1F5EE;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="ti ti-package" style="font-size:18px;color:#0F6E56" aria-hidden="true"></i></div>
+  <div class="history-meta">
+    <div class="history-route">${h.product}</div>
+    <div class="history-sub">${h.origin} → ${h.dest} · ${h.weight?h.weight+'kg':''}${h.value?' · USD '+Number(h.value).toLocaleString():''}</div>
+  </div>
+  <div class="history-time">${new Date(h.timestamp).toLocaleDateString()}</div>
+  <i class="ti ti-chevron-right" style="color:var(--color-text-tertiary);font-size:16px" aria-hidden="true"></i>
+</div>`).join('');
+}
+
+function loadHistoryItem(id){
+  const item=DB.history.find(h=>String(h.id)===String(id));
+  if(!item)return;
+  document.getElementById('inp-product').value=item.product;
+  document.getElementById('inp-origin').value=item.origin;
+  document.getElementById('inp-dest').value=item.dest;
+  document.getElementById('inp-weight').value=item.weight||'';
+  document.getElementById('inp-qty').value=item.qty||'';
+  document.getElementById('inp-value').value=item.value||'';
+  document.getElementById('inp-hs').value=item.hs||'';
+  switchPage('analyze');
+  renderResults(item.analysis,{product:item.product,origin:item.origin,dest:item.dest});
+}
+
+function clearHistory(){DB.history=[];saveHistory();renderHistory();}
+
+const KB={
+  incoterms:[
+    {code:'EXW',name:'Ex Works',group:'Any mode',seller:'Minimum',buyer:'Maximum',desc:'Seller makes goods available at their premises. Buyer bears all costs and risks.'},
+    {code:'FCA',name:'Free Carrier',group:'Any mode',seller:'Low',buyer:'High',desc:'Seller delivers goods to named carrier. Risk passes on delivery to carrier.'},
+    {code:'CPT',name:'Carriage Paid To',group:'Any mode',seller:'Medium',buyer:'Medium',desc:'Seller pays freight to named destination. Risk passes to buyer when goods handed to first carrier.'},
+    {code:'CIP',name:'Carriage and Insurance Paid',group:'Any mode',seller:'Medium+',buyer:'Medium',desc:'Like CPT but seller must also provide insurance cover.'},
+    {code:'DAP',name:'Delivered at Place',group:'Any mode',seller:'High',buyer:'Low',desc:'Seller delivers to named place, buyer handles import duties.'},
+    {code:'DPU',name:'Delivered at Place Unloaded',group:'Any mode',seller:'High',buyer:'Low',desc:'Seller delivers and unloads at destination. Only incoterm requiring seller to unload.'},
+    {code:'DDP',name:'Delivered Duty Paid',group:'Any mode',seller:'Maximum',buyer:'Minimum',desc:'Seller bears all costs including import duties. Maximum obligation for seller.'},
+    {code:'FAS',name:'Free Alongside Ship',group:'Sea/inland waterway',seller:'Low',buyer:'High',desc:'Seller places goods alongside vessel. Sea shipments only.'},
+    {code:'FOB',name:'Free on Board',group:'Sea/inland waterway',seller:'Medium',buyer:'Medium',desc:'Risk passes when goods placed on board vessel. Most commonly used sea incoterm.'},
+    {code:'CFR',name:'Cost and Freight',group:'Sea/inland waterway',seller:'Medium+',buyer:'Medium',desc:'Seller pays freight to port of destination. Sea shipments only.'},
+    {code:'CIF',name:'Cost Insurance and Freight',group:'Sea/inland waterway',seller:'Medium+',buyer:'Medium',desc:'Like CFR but seller also provides insurance. Sea shipments only.'},
+  ],
+  docs:[
+    {name:'Commercial Invoice',type:'Core',desc:'Primary document detailing goods, values, and parties. Required for all international shipments.'},
+    {name:'Packing List',type:'Core',desc:'Itemized list of package contents, weights, and dimensions.'},
+    {name:'Bill of Lading (B/L)',type:'Sea',desc:'Contract of carriage for sea shipments. Also serves as title document.'},
+    {name:'Airway Bill (AWB)',type:'Air',desc:'Contract of carriage for air shipments. Non-negotiable document.'},
+    {name:'Certificate of Origin',type:'Trade',desc:'Certifies country where goods were manufactured. Required for preferential tariff treatment.'},
+    {name:'Customs Export Declaration',type:'Customs',desc:'Filed with origin country customs authorities before export.'},
+    {name:'Customs Import Declaration',type:'Customs',desc:'Filed with destination country customs to clear imported goods.'},
+    {name:'Letter of Credit',type:'Finance',desc:'Bank guarantee of payment. Reduces financial risk in international trade.'},
+    {name:'Insurance Certificate',type:'Insurance',desc:'Proof of cargo insurance covering goods during transit.'},
+    {name:'Dangerous Goods Declaration',type:'Hazmat',desc:'Required for any regulated dangerous goods (IATA/IMDG).'},
+  ],
+  modes:[
+    {name:'Air freight',speed:'1–5 days',cost:'High',weight:'<500 kg typical',best:'Urgent, high-value, perishables'},
+    {name:'Sea freight (FCL)',speed:'15–40 days',cost:'Low',weight:'>5,000 kg',best:'Bulk goods, containers, non-urgent'},
+    {name:'Sea freight (LCL)',speed:'20–45 days',cost:'Medium-low',weight:'Any',best:'Smaller loads, cost-sensitive'},
+    {name:'Road freight',speed:'1–10 days',cost:'Medium',weight:'Up to 25,000 kg',best:'Continental, door-to-door'},
+    {name:'Rail freight',speed:'10–20 days',cost:'Medium-low',weight:'Up to 70,000 kg',best:'Europe-Asia corridors'},
+    {name:'Multimodal',speed:'Varies',cost:'Variable',weight:'Any',best:'Long distance, complex routes'},
+  ],
+  risks:[
+    {cat:'Sanctions',level:'High',desc:'Trade embargoes and sanctions can prohibit shipment entirely. Check OFAC, EU, UN lists.'},
+    {cat:'Dual-use export controls',level:'High',desc:'Items with military applications require export licenses. Includes electronics, chemicals, software.'},
+    {cat:'Customs valuation fraud',level:'High',desc:'Under-declaring value is illegal and can result in seizure and prosecution.'},
+    {cat:'Tariff classification errors',level:'Medium',desc:'Incorrect HS codes lead to wrong duty rates and potential penalties.'},
+    {cat:'Intellectual property',level:'Medium',desc:'Counterfeit goods are seized at borders. Verify authenticity documentation.'},
+    {cat:'Phytosanitary controls',level:'Medium',desc:'Agricultural products require inspection certificates to prevent pest/disease spread.'},
+    {cat:'Currency controls',level:'Low',desc:'Some countries restrict currency movement. Affects payment terms.'},
+    {cat:'Port congestion',level:'Low',desc:'Major ports experience congestion adding 5–15 days to transit times.'},
+  ]
+};
+
+function switchAdminTab(tab,el){
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  renderAdmin(tab);
+}
+
+function renderAdmin(tab){
+  const el=document.getElementById('admin-content');
+  if(tab==='incoterms'){
+    el.innerHTML=KB.incoterms.map(i=>`<div class="kb-item"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:15px;font-weight:500;color:#0F6E56">${i.code}</span><span style="font-size:13px;font-weight:500">${i.name}</span><span class="kb-badge" style="background:#E1F5EE;color:#0F6E56">${i.group}</span></div><p>${i.desc}</p><div style="display:flex;gap:12px;margin-top:6px;font-size:11px;color:var(--color-text-secondary)"><span>Seller obligation: <b style="color:var(--color-text-primary)">${i.seller}</b></span><span>Buyer obligation: <b style="color:var(--color-text-primary)">${i.buyer}</b></span></div></div>`).join('');
+  } else if(tab==='docs'){
+    el.innerHTML=KB.docs.map(d=>`<div class="kb-item"><h4>${d.name} <span class="kb-badge" style="background:var(--color-background-secondary);color:var(--color-text-secondary)">${d.type}</span></h4><p>${d.desc}</p></div>`).join('');
+  } else if(tab==='modes'){
+    el.innerHTML=KB.modes.map(m=>`<div class="kb-item"><h4>${m.name}</h4><div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;margin-top:4px"><span style="color:var(--color-text-secondary)">Transit: <b style="color:var(--color-text-primary)">${m.speed}</b></span><span style="color:var(--color-text-secondary)">Cost: <b style="color:var(--color-text-primary)">${m.cost}</b></span><span style="color:var(--color-text-secondary)">Capacity: <b style="color:var(--color-text-primary)">${m.weight}</b></span></div><p style="margin-top:6px">Best for: ${m.best}</p></div>`).join('');
+  } else if(tab==='risks'){
+    const lc={'High':'red','Medium':'amber','Low':'green'};
+    el.innerHTML=KB.risks.map(r=>`<div class="kb-item"><h4>${r.cat} <span class="kb-badge tag ${lc[r.level]}">${r.level} risk</span></h4><p>${r.desc}</p></div>`).join('');
+  }
+}
+
+renderAdmin('incoterms');
+</script>
